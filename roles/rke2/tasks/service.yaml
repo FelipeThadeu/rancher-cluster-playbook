@@ -1,0 +1,5 @@
+- name: Habilitar e iniciar o rke2-server
+  systemd:
+    name: rke2-server
+    enabled: yes
+    state: started

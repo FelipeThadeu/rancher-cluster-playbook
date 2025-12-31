@@ -1,0 +1,17 @@
+- name: Criar namespace para cert-manager
+  kubernetes.core.k8s:
+    kind: namespace
+    name: cert-manager
+
+- name: Aplicar CRDs cert-manager
+  shell:  >
+    kubectl apply --validate=false
+    -f https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
+
+- name: Adicionar o repo jetstack
+  shell: helm repo add jetstack https://charts.jetstack.io
+
+- name: Instalar o Cert-manager
+  shell: >
+    helm install cert-manager jetstack/cert-manager
+    --namespace cert-manager

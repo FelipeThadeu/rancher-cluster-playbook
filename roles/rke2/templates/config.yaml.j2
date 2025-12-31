@@ -1,0 +1,5 @@
+token: "{{ rke2_token | default(omit) }}"
+tls-san:
+  {% for host in groups['rke2_servers'] %}
+  - "{{ host }}"
+  {% endfor %}

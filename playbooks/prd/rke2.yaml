@@ -1,0 +1,9 @@
+- name: Instalar RKE2 Cluster
+  hosts: rke2_servers
+  become: yes
+  roles:
+    - common
+    - security
+    - open-iscsi
+    - rke2
+    

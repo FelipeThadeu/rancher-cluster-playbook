@@ -1,0 +1,5 @@
+rke2_version: "v1.24.9+rke2r1"
+rke2_config_dir: /etc/rancher/rke2
+rke2_bin_path: /var/lib/rancher/rke2/bin
+rancher_hostname: "lab-rancher.local"
+cert_manager_version: "v1.10.1"

@@ -1,0 +1,5 @@
+all:
+  children:
+    rke2_servers:
+      hosts:
+        lab-node:

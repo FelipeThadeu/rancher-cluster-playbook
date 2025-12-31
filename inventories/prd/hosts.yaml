@@ -1,0 +1,7 @@
+all:
+  children:
+    rke2_servers:
+      hosts:
+        node-name-1:
+        node-name-2:
+        node-name-3:

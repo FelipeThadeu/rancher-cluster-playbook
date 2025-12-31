@@ -1,0 +1,7 @@
+- name: Instalar Helm, Cert-Manager e Rancher no lab
+  hosts: rke2_servers
+  become: yes
+  roles:
+    - helm
+    - cert_manager
+    - rancher
