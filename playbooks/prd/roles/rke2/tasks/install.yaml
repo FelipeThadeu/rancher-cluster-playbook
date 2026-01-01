@@ -1,0 +1,10 @@
+- name: Criar diretório RKE2
+  file:
+    path: "{{ rke2_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Instalar RKE2
+  shell: curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION={{ rke2_version }} sh -
+  args:
+    creates: /usr/local/bin/rke2

@@ -11,9 +11,9 @@ Isso garante que o hostname usado pelo Rancher e TLS resolva.
 
 No seu nó único:
 ```
-ansible-playbook -i inventories/lab/hosts.yml playbooks/bootstrap.yml
-ansible-playbook -i inventories/lab/hosts.yml playbooks/rke2.yml
-ansible-playbook -i inventories/lab/hosts.yml playbooks/rancher.yml
+ansible-playbook -i ../../inventories/lab/hosts.yml playbooks/dev/bootstrap.yml
+ansible-playbook -i ../../inventories/lab/hosts.yml playbooks/dev/rke2.yml
+ansible-playbook -i ../../inventories/lab/hosts.yml playbooks/dev/rancher.yml
 ```
 
 # Validar RKE2

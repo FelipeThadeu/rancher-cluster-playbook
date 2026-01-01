@@ -1,0 +1,18 @@
+- name: Criar namespace cattle-system
+  kubernetes.core.k8s:
+    kind: namespace
+    name: cattle-system
+
+- name: Adicionar repo rancher
+  shell: helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+
+- name: Instalar rancher
+  shell: >
+    helm install rancher rancher-stable/rancher
+    --namespace cattle-system
+    --set hostname={{ rancher_hostname }}
+    --set replicas=1
+    --set ingress.tls.source=letsEncrypt
+    --set letsEncrypt.email={{ letsencrypt_email }}
+    --set letsEncrypt.environment=production
+    
