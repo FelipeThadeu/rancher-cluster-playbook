@@ -3,3 +3,5 @@ all:
     rke2_servers:
       hosts:
         hp-desk:
+          ansible_user: fpsantos
+          ansible_python_interpreter: /usr/bin/python3.12

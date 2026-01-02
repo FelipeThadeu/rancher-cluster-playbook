@@ -1,7 +1,12 @@
 - name: Criar namespace cattle-system
-  kubernetes.core.k8s:
-    kind: namespace
-    name: cattle-system
+  k8s:
+    kubeconfig: /etc/rancher/rke2/rke2.yaml
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cattle-system
 
 - name: Adicionar repo rancher
   shell: helm repo add rancher-stable https://releases.rancher.com/server-charts/stable

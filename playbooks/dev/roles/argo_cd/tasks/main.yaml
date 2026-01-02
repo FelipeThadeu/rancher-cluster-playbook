@@ -1,0 +1,35 @@
+- name: Aplicar CRDs do ArgoCD
+  ansible.builtin.shell: |
+    kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/crds.yaml
+  environment:
+    KUBECONFIG: /etc/rancher/rke2/rke2.yaml
+  become: yes
+
+- name: Criar namespace argocd
+  kubernetes.core.k8s:
+    name: argocd
+    api_version: v1
+    kind: Namespace
+    state: present
+    kubeconfig: /etc/rancher/rke2/rke2.yaml
+  become: yes
+
+- name: Adicionar repo ArgoCD
+  helm_repository:
+    name: argo
+    repo_url: https://argoproj.github.io/argo-helm
+  become: yes
+
+- name: Instalar ArgoCD via Helm
+  helm:
+    name: argocd
+    chart: argo/argo-cd
+    namespace: argocd
+    create_namespace: false
+    values:
+      server:
+        service:
+          type: LoadBalancer
+    kubeconfig: /etc/rancher/rke2/rke2.yaml
+  become: yes
+

@@ -1,9 +1,9 @@
-- name: Atualizar cache do zypper
-  zypper:
+- name: Atualizar cache do apt
+  apt:
     update_cache: yes
 
 - name: Instalar pacotes básicos
-  zypper:
+  apt:
     name:
       - vim
       - git
@@ -13,3 +13,19 @@
       - tar
       - gzip
     state: present
+
+- name: Instalar pip3 no Debian/Ubuntu
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Instalar dependências Python para Ansible K8s (Debian/Ubuntu)
+  apt:
+    name:
+      - python3-kubernetes
+      - python3-openshift
+    state: present
+    update_cache: yes
+  become: yes

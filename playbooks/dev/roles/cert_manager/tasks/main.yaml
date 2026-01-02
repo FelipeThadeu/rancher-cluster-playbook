@@ -1,17 +1,34 @@
+- name: Garantir que o serviço RKE2 esteja habilitado e rodando
+  systemd:
+    name: rke2-server
+    enabled: yes      # habilita o serviço no boot (equivalente a systemctl enable)
+    state: started    # garante que está iniciado (equivalente a systemctl start)
+  become: yes
+
 - name: Criar namespace para cert-manager
-  kubernetes.core.k8s:
-    kind: namespace
-    name: cert-manager
+  k8s:
+    kubeconfig: /etc/rancher/rke2/rke2.yaml
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cert-manager
 
 - name: Aplicar CRDs cert-manager
-  shell:  >
-    kubectl apply --validate=false
-    -f https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
+  ansible.builtin.shell: |
+    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
+  environment:
+    KUBECONFIG: /etc/rancher/rke2/rke2.yaml
+  become: yes
 
 - name: Adicionar o repo jetstack
   shell: helm repo add jetstack https://charts.jetstack.io
 
-- name: Instalar o Cert-manager
-  shell: >
-    helm install cert-manager jetstack/cert-manager
-    --namespace cert-manager
+- name: Instalar o Cert-manager via shell
+  ansible.builtin.shell: >
+    helm install cert-manager jetstack/cert-manager --namespace cert-manager
+  environment:
+    KUBECONFIG: /etc/rancher/rke2/rke2.yaml
+  become: yes
+  ignore_errors: yes
