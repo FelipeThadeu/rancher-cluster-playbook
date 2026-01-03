@@ -8,16 +8,20 @@
       metadata:
         name: cattle-system
 
-- name: Adicionar repo rancher
-  shell: helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+- name: Adicionar repo Helm do Rancher
+  ansible.builtin.shell: |
+    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable || true
+    helm repo update
+  args:
+    executable: /bin/bash
 
 - name: Instalar rancher
   shell: >
-    helm install rancher rancher-stable/rancher
+    helm upgrade --install rancher rancher-stable/rancher
     --namespace cattle-system
+    --create-namespace
     --set hostname={{ rancher_hostname }}
+    --set ingress.tls.source=secret
     --set replicas=1
-    --set ingress.tls.source=letsEncrypt
-    --set letsEncrypt.email={{ letsencrypt_email }}
-    --set letsEncrypt.environment=production
-    
+  environment:
+    KUBECONFIG: /etc/rancher/rke2/rke2.yaml

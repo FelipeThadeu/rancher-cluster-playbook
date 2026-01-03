@@ -13,3 +13,5 @@
       - tar
       - gzip
     state: present
+
+- import_tasks: disable_swap.yaml

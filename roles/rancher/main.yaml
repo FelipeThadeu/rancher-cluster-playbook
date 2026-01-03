@@ -12,7 +12,4 @@
     --namespace cattle-system
     --set hostname={{ rancher_hostname }}
     --set replicas=1
-    --set ingress.tls.source=letsEncrypt
-    --set letsEncrypt.email={{ letsencrypt_email }}
-    --set letsEncrypt.environment=production
-    
+    --set ingress.tls.source=secret    
