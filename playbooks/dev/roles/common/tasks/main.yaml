@@ -29,3 +29,5 @@
     state: present
     update_cache: yes
   become: yes
+
+- import_tasks: disable_swap.yaml
