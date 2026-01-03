@@ -1,0 +1,34 @@
+---
+- name: Atualizar cache do zypper
+  zypper:
+    update_cache: yes
+  become: yes
+
+- name: Instalar pacotes básicos (SUSE)
+  zypper:
+    name:
+      - vim
+      - git
+      - curl
+      - wget
+      - htop
+      - tar
+      - gzip
+    state: present
+  become: yes
+
+- name: Instalar pip3
+  zypper:
+    name: python3-pip
+    state: present
+  become: yes
+
+- name: Instalar dependências Python para K8s
+  zypper:
+    name:
+      - python3-kubernetes
+      - python3-openshift
+    state: present
+  become: yes
+
+- import_tasks: disable_swap.yaml

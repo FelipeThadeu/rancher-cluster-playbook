@@ -1,33 +1,15 @@
-- name: Atualizar cache do apt
-  apt:
-    update_cache: yes
+---
+- name: Detectar SO
+  debug:
+    msg: "SO detectado: {{ ansible_distribution }} {{ ansible_distribution_version }}"
 
-- name: Instalar pacotes básicos
-  apt:
-    name:
-      - vim
-      - git
-      - curl
-      - wget
-      - htop
-      - tar
-      - gzip
-    state: present
+- import_tasks: ubuntu.yaml
+  when: ansible_os_family == "Debian"
 
-- name: Instalar pip3 no Debian/Ubuntu
-  apt:
-    name: python3-pip
-    state: present
-    update_cache: yes
-  become: yes
+- import_tasks: sles15.yaml
+  when: ansible_distribution == "SLES"
 
-- name: Instalar dependências Python para Ansible K8s (Debian/Ubuntu)
-  apt:
-    name:
-      - python3-kubernetes
-      - python3-openshift
-    state: present
-    update_cache: yes
-  become: yes
+- import_tasks: opensuse_tumbleweed.yaml
+  when: ansible_distribution == "openSUSE Tumbleweed"
 
 - import_tasks: disable_swap.yaml
