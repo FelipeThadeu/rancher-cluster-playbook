@@ -1,0 +1,33 @@
+- name: Atualizar cache do apt
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Instalar pacotes básicos (Ubuntu)
+  apt:
+    name:
+      - vim
+      - git
+      - curl
+      - wget
+      - htop
+      - tar
+      - gzip
+    state: present
+  become: yes
+
+- name: Instalar pip3
+  apt:
+    name: python3-pip
+    state: present
+  become: yes
+
+- name: Instalar dependências Python para K8s
+  apt:
+    name:
+      - python3-kubernetes
+      - python3-openshift
+    state: present
+  become: yes
+
+- import_tasks: disable_swap.yaml

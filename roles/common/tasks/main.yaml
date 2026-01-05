@@ -1,17 +1,15 @@
-- name: Atualizar cache do zypper
-  zypper:
-    update_cache: yes
+---
+- name: Detectar SO
+  debug:
+    msg: "SO detectado: {{ ansible_distribution }} {{ ansible_distribution_version }}"
 
-- name: Instalar pacotes básicos
-  zypper:
-    name:
-      - vim
-      - git
-      - curl
-      - wget
-      - htop
-      - tar
-      - gzip
-    state: present
+- import_tasks: ubuntu.yaml
+  when: ansible_os_family == "Debian"
+
+- import_tasks: sles15.yaml
+  when: ansible_distribution == "SLES"
+
+- import_tasks: opensuse_tumbleweed.yaml
+  when: ansible_distribution == "openSUSE Tumbleweed"
 
 - import_tasks: disable_swap.yaml

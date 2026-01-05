@@ -1,5 +1,5 @@
 - name: Instalar open-iscsi
-  zypper:
+  apt:
     name: open-iscsi
     state: present
 

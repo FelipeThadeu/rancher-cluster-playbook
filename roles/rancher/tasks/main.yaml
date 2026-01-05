@@ -1,0 +1,27 @@
+- name: Criar namespace cattle-system
+  k8s:
+    kubeconfig: /etc/rancher/rke2/rke2.yaml
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cattle-system
+
+- name: Adicionar repo Helm do Rancher
+  ansible.builtin.shell: |
+    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable || true
+    helm repo update
+  args:
+    executable: /bin/bash
+
+- name: Instalar rancher
+  shell: >
+    helm upgrade --install rancher rancher-stable/rancher
+    --namespace cattle-system
+    --create-namespace
+    --set hostname={{ rancher_hostname }}
+    --set ingress.tls.source=secret
+    --set replicas=1
+  environment:
+    KUBECONFIG: /etc/rancher/rke2/rke2.yaml

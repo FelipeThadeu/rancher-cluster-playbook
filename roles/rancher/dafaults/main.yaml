@@ -1,0 +1,7 @@
+rancher_hostname: "hp-desk"
+
+# Email usado pelo Let's Encrypt
+letsencrypt_email: felipet65@gmail.com
+
+# staging é melhor para lab (evita rate-limit)
+letsencrypt_environment: staging
